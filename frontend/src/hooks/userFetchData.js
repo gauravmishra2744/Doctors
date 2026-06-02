@@ -22,7 +22,7 @@ const UserFetchData=(url, requiresAuth=false)=> {
             }
             catch(err) {
                 setLoading(false);
-                setError(err.message);
+                setError(err.message.includes('fetch') ? 'Server is starting up, please wait a moment and refresh...' : err.message);
             }
         };
 

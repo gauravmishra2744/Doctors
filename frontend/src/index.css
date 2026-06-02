@@ -6,6 +6,18 @@
     section{
         @apply py-[75px]
     }
+    .dark .heading, .dark h1, .dark h2, .dark h4 {
+        color: #f3f4f6 !important;
+    }
+    .dark .text_para, .dark p {
+        color: #d1d5db !important;
+    }
+    .dark section {
+        background-color: transparent;
+    }
+    .dark .hero_section {
+        filter: brightness(0.85);
+    }
 }
 
 @layer components{
