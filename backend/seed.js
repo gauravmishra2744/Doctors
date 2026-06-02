@@ -193,7 +193,7 @@ const users = [
 ];
 
 async function seed() {
-  const uri = process.env.MONGO_URI || process.env.URL;
+const uri = process.env.MONGO_URI || process.env.URL || 'mongodb+srv://medicareuser:Gaurav%409450@cluster0.0jewa.mongodb.net/medicare?retryWrites=true&w=majority&appName=Cluster0';
   await mongoose.connect(uri);
   console.log('Connected to DB');
 

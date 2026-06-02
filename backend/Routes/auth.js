@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
         if (role === 'patient') {
             user = new User({ name, email, password: hashPass, gender, role, photo});
         } else if (role === 'doctor') {
-            user = new Doctor({ name, email, password: hashPass, gender, role, photo});
+            user = new Doctor({ name, email, password: hashPass, gender, role, photo, isApproved: 'approved' });
         }
         // console.log(user);
         // Save the user to the database
