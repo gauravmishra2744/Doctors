@@ -5,7 +5,6 @@ const Doctor = require('../models/DoctorSchema');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const { getToken } = require('../utils/helpers');
-const app = express();
 
 router.post('/register', async (req, res) => {
     // Extracting user details from the request body
@@ -14,7 +13,7 @@ router.post('/register', async (req, res) => {
 
     try {
         // Check if user with the same email already exists
-        const existingUser = role === 'user' ? await User.findOne({ email }) : await Doctor.findOne({ email });
+        const existingUser = role === 'patient' ? await User.findOne({ email }) : await Doctor.findOne({ email });
 
         if (existingUser) {
             return res.status(403).json({ error: "A user with this email already exists" });
@@ -84,7 +83,7 @@ router.post('/login', [
         }
 
         const jwtPayload = {
-            id: userData._id,
+            identifier: userData._id,
             role: userData.role,  // 'patient' or 'doctor'
         };
         const token = await getToken(userData.email, jwtPayload);

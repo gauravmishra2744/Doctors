@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: medicare-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: SECRET
+        sync: false
+      - key: CLIENT_SITE_URL
+        sync: false

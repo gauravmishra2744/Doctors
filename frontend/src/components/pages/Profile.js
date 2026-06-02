@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { URL } from '../../utils/config';
 
 const DoctorProfile = ({ doctor }) => {
-    if (!doctor) {
-        return <p>Loading...</p>;
-    }
-    //   console.log(doctor);
+    if (!doctor) return <p>Loading...</p>;
     return (
         <div className="container my-5 w-100">
             <div className="card p-4 shadow-lg">
@@ -17,13 +14,13 @@ const DoctorProfile = ({ doctor }) => {
                         <p><strong>Gender:</strong> {doctor.gender}</p>
                     </div>
                     <div className="col-md-6">
-                        <p><strong>Experience:</strong> {doctor.experiences.length > 0 ? doctor.experiences.join(', ') : 'Not available'}</p>
-                        <p><strong>Qualifications:</strong> {doctor.qualifications.length > 0 ? doctor.qualifications.join(', ') : 'Not available'}</p>
+                        <p><strong>Experience:</strong> {doctor.experiences?.length > 0 ? doctor.experiences.map(e => e.position).join(', ') : 'Not available'}</p>
+                        <p><strong>Qualifications:</strong> {doctor.qualifications?.length > 0 ? doctor.qualifications.map(q => q.degree).join(', ') : 'Not available'}</p>
                     </div>
                 </div>
                 <div className="mt-4">
                     <h4>Reviews</h4>
-                    {doctor.reviews.length > 0 ? (
+                    {doctor.reviews?.length > 0 ? (
                         <ul className="list-group">
                             {doctor.reviews.map((review, index) => (
                                 <li key={index} className="list-group-item">{review}</li>
@@ -37,10 +34,9 @@ const DoctorProfile = ({ doctor }) => {
         </div>
     );
 };
+
 const UserProfile = ({ user }) => {
-    if (!user) {
-        return <p>Loading...</p>;
-    }
+    if (!user) return <p>Loading...</p>;
     return (
         <div className="container mt-5">
             <div className="card p-4 shadow-lg">
@@ -52,52 +48,48 @@ const UserProfile = ({ user }) => {
                         <p><strong>Gender:</strong> {user.gender}</p>
                     </div>
                     <div className="col-md-6">
-                        <p><strong>Appointments:</strong> {user.appointments.length > 0 ? user.appointments.join(', ') : 'No appointments'}</p>
+                        <p><strong>Appointments:</strong> {user.appointments?.length > 0 ? user.appointments.join(', ') : 'No appointments'}</p>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
-// Example usage
+
 const Profile = () => {
-    const [data, setData] = useState([]);
-    let id = localStorage.getItem("userId");
+    const [data, setData] = useState(null);
+    const token = localStorage.getItem("docToken");
+    const id = localStorage.getItem("userId");
 
     useEffect(() => {
-        if (id) {
-            async function fetchUserName() {
-                try {
-                    const response1 = await fetch(URL + "/user/" + id);
-                    const response2 = await fetch(URL + "/doctor/" + id);
-                    const data1 = await response1.json();
-                    const data2 = await response2.json();
-                    if (data1.success) {
-                        setData(data1);
-                    }
-                    else if (data2.success) {
-                        setData(data2)
-                    }
-                } catch (error) {
-                    console.error("Error fetching user data", error);
-                }
+        if (!id || !token) return;
+        const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
+        async function fetchProfile() {
+            try {
+                const [res1, res2] = await Promise.all([
+                    fetch(URL + "/user/" + id, { headers }),
+                    fetch(URL + "/doctor/" + id, { headers })
+                ]);
+                const [d1, d2] = await Promise.all([res1.json(), res2.json()]);
+                if (d1.success) setData(d1);
+                else if (d2.success) setData(d2);
+            } catch (error) {
+                console.error("Error fetching profile", error);
             }
-            fetchUserName();
         }
-    }, [id]);
+        fetchProfile();
+    }, [id, token]);
 
-    console.log(data.data);
     return (
-        <div >
-            {data.data && data.data.role === "doctor" ? (
+        <div>
+            {data?.data && data.data.role === "doctor" ? (
                 <DoctorProfile doctor={data.data} />
             ) : (
-                <UserProfile user={data.data} />
+                <UserProfile user={data?.data} />
             )}
         </div>
     );
 };
-
 
 export default Profile;
 

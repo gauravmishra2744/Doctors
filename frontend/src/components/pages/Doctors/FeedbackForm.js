@@ -23,8 +23,7 @@ export default function FeedbackForm() {
             }
 
             const res = await makeAuthPostReq(`/doctor/${id}/review/`, { rating, reviewText });
-            console.log(res);
-            if (!res.ok) {
+            if (!res.success) {
                 throw new Error(res.message);
             }
 
@@ -38,7 +37,7 @@ export default function FeedbackForm() {
     };
 
     return (
-        <form action=''>
+        <form onSubmit={handleSubmit}>
             <div>
                 <h3 className='text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0'>
                     How would you rate the overall experience?*
@@ -82,7 +81,7 @@ export default function FeedbackForm() {
                     onChange={(e) => setReviewText(e.target.value)}
                 ></textarea>
             </div>
-            <button type='submit' className='btn' onClick={handleSubmit}>
+            <button type='submit' className='btn'>
                 {loading ? <HashLoader size={25} color='#fff' /> : 'Submit Feedback'}
             </button>
         </form>

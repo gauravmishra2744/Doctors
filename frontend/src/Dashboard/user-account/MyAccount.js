@@ -9,12 +9,13 @@ import Error from '../../components/Error/Error';
 export default function MyAccount() {
     const { dispatch } = useContext(AuthContext);
     const [tab, setTab] = useState('bookings')
-    const { data: userData, loading, error } = userGetProfile("/user/profile/me");
+    const { data: userData, loading, error } = userGetProfile("/user/profile/me", true);
 
     // console.log(userData);
 
     const handleLogout = () => {
         localStorage.removeItem("docToken");
+        localStorage.removeItem("userId");
         dispatch({ type: "LOGOUT" });
     }
     

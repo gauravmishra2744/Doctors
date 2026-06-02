@@ -9,7 +9,7 @@ import Profile from './Profile';
 import Appointments from './Appointments';
 
 export default function Dashboard() {
-  const { data, loading, error } = userGetProfile("/doctor/profile/me")
+  const { data, loading, error } = userGetProfile("/doctor/profile/me", true)
 
   const [tab, setTab] = useState('overview');
 

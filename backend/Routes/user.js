@@ -5,6 +5,15 @@ const express = require('express');
 const {restrict} = require('../utils/helpers');
 const passport = require('passport');
 
+const jwtAuth = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user) => {
+        if (err) return res.status(500).json({ success: false, message: 'Auth error' });
+        if (!user) return res.status(401).json({ success: false, message: 'Unauthorized. Please login.' });
+        req.user = user;
+        next();
+    })(req, res, next);
+};
+
 const updateUser = async (req, res) => {
     const id = req.params.id;
 
@@ -105,11 +114,11 @@ const getMyAppointments = async (req, res) => {
 
 const router = express.Router();
 
-router.get('/profile/me', passport.authenticate("jwt", { session: false }), restrict(["patient"]), getUserProfile);
-router.get('/appointments/my-appointments', passport.authenticate("jwt", { session: false }), restrict(["patient"]), getMyAppointments);
-router.get('/:id', passport.authenticate("jwt", { session: false}), restrict(["patient"]), getSingleUser);
-router.get('/', passport.authenticate("jwt", { session: false}), restrict(["admin"]), getAllUser);
-router.put('/:id', passport.authenticate("jwt", { session: false }), restrict(["patient"]), updateUser);
-router.delete('/:id', passport.authenticate("jwt", { session: false }), restrict(["patient"]), deleteUser);
+router.get('/profile/me', jwtAuth, restrict(["patient"]), getUserProfile);
+router.get('/appointments/my-appointments', jwtAuth, restrict(["patient"]), getMyAppointments);
+router.get('/:id', jwtAuth, restrict(["patient"]), getSingleUser);
+router.get('/', jwtAuth, restrict(["admin"]), getAllUser);
+router.put('/:id', jwtAuth, restrict(["patient"]), updateUser);
+router.delete('/:id', jwtAuth, restrict(["patient"]), deleteUser);
 
 module.exports= router;

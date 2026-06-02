@@ -23,6 +23,7 @@ export default function Login() {
             if (response && !response.err) {
                 const token = response.token;
                 localStorage.setItem("docToken", token);
+                localStorage.setItem("userId", response.data._id);
                 dispatch({
                     type: "LOGIN_SUCCESS",
                     payload: {

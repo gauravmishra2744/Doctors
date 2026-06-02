@@ -8,6 +8,7 @@ export default function Tabs({ tab, setTab }) {
 
   const handleLogout = () => {
     localStorage.removeItem("docToken");
+    localStorage.removeItem("userId");
     dispatch({ type: "LOGOUT" });
   }
 

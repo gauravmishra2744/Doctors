@@ -5,7 +5,7 @@ import Loading from '../../components/Loader/Loading';
 import Error from '../../components/Error/Error';
 
 export default function MyBookings() {
-  const { data: appointments, loading, error } = UserFetchData('/user/appointments/my-appointments');
+  const { data: appointments, loading, error } = UserFetchData('/user/appointments/my-appointments', true);
  console.log(appointments);
   return (
     <div>

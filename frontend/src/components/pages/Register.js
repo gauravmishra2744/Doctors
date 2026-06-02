@@ -37,14 +37,14 @@ export default function Register() {
         try {
             const response = await makeUnauthPostReq('/auth/register', data);
 
-            if (response && !response.err) {
+            if (response && !response.error) {
                 // Registration successful
                 toast.success("Congratulations! You are successfully registered.");
                 setLoading(false);
                 navigate("/login");
             } else {
                 // Handle specific error conditions
-                if (response.err === "User already exists") {
+                if (response.error === "A user with this email already exists") {
                     // Handle user already exists error
                     toast.error("User with this email already exists. Please use a different email.");
                 } else {

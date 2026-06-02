@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Doctor = require('./DoctorSchema');
-const { stat } = require('fs');
 const reviewSchema = new mongoose.Schema(
   {
     doctor: {

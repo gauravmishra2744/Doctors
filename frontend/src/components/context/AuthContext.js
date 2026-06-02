@@ -20,6 +20,8 @@ const AuthReducer = (state, action) => {
             };
 
         case "LOGOUT":
+            localStorage.removeItem("docToken");
+            localStorage.removeItem("userId");
             return {
                 user: null
             };

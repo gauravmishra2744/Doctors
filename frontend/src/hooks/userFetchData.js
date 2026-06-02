@@ -1,8 +1,7 @@
 import {useEffect, useState} from 'react'
-import {makeAuthGetReq} from '../utils/serverHelper';
+import {makeAuthGetReq, makeUnAuthGetReq} from '../utils/serverHelper';
 
-const UserFetchData=(url)=> {
-    // console.log(url)
+const UserFetchData=(url, requiresAuth=false)=> {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -10,13 +9,14 @@ const UserFetchData=(url)=> {
     useEffect(()=>{
         const fetchData= async()=>{
             setLoading(true);
-
             try{
-                const response=await makeAuthGetReq(url);
+                const token = localStorage.getItem("docToken");
+                const response = (requiresAuth && token)
+                    ? await makeAuthGetReq(url)
+                    : await makeUnAuthGetReq(url);
                 if(!response.success){
                     throw new Error(response.message + "😒");
                 }
-                // console.log(response)
                 setData(response.data);
                 setLoading(false);
             }
@@ -27,9 +27,7 @@ const UserFetchData=(url)=> {
         };
 
         fetchData();
-    }, [url]);
-
-    // console.log(data);
+    }, [url, requiresAuth]);
 
   return {
     data, loading, error

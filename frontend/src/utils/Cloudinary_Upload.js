@@ -1,5 +1,4 @@
-const {cloudinary_upload_preset} = require('./config');
-const {cloud_name} = require('./config');
+import { cloudinary_upload_preset, cloud_name } from './config';
 
 const uploadImgToCloudinary = async(file)=>{
     const uploadData=new FormData();

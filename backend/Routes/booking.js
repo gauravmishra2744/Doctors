@@ -6,6 +6,15 @@ const passport = require('passport');
 
 const router = express.Router();
 
+const jwtAuth = (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user) => {
+        if (err) return res.status(500).json({ success: false, message: 'Auth error' });
+        if (!user) return res.status(401).json({ success: false, message: 'Unauthorized. Please login.' });
+        req.user = user;
+        next();
+    })(req, res, next);
+};
+
 const getCheckoutSession = async (req, res) => {
     try {
         const doctor = await Doctor.findById(req.params.doctorId);
@@ -38,6 +47,6 @@ const getCheckoutSession = async (req, res) => {
     }
 };
 
-router.post('/checkout-session/:doctorId', passport.authenticate('jwt', { session: false }), getCheckoutSession);
+router.post('/checkout-session/:doctorId', jwtAuth, getCheckoutSession);
 
 module.exports = router;
