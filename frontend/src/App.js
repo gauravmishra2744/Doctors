@@ -1,13 +1,14 @@
 import React from 'react';
 import Layout from './Layout/Layout';
 import './App.css';
-import { Toaster} from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { AuthContextProvider } from './components/context/AuthContext';
+import { DarkModeProvider } from './components/context/DarkModeContext';
 
 export default function App() {
   return (
-    <>
-      <AuthContextProvider>
+    <AuthContextProvider>
+      <DarkModeProvider>
         <Toaster
           autoClose={3000}
           closeOnClick
@@ -15,7 +16,7 @@ export default function App() {
           containerStyle={{ zIndex: "3453534" }}
         />
         <Layout />
-      </AuthContextProvider>
-    </>
+      </DarkModeProvider>
+    </AuthContextProvider>
   );
 }
