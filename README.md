@@ -1,6 +1,3 @@
-Developed a website for Online Doctor Appointement Booking using MERN stack.
-Note: The website is hosted with free domain i.e. on the free hosting websites. Due to this, the website may not work properly and responds slowly. It may have to be refreshed again and again or open again to make it work properly.
-
 Instructions for the use:
 1) Sign up using email. Provide name, password, role and gender. The password is hashed to maintain privacy and security.
 2) The role of user is asked that wether he/she is a doctor or a patient to provide with the particular functionalities.
@@ -12,4 +9,3 @@ Instructions for the use:
 8) User can visit services to know about the services provided and about page to know about us.
 9) User can also seek help and assistance by visiting the contact page.
 10) User can logout from the website by clicking on the Logout button.
-# Medicare
